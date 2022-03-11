@@ -1,24 +1,21 @@
-import React
- from "react";
-function App() {
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [repositories, setRepositories] = useState([]);
+
+  useEffect(async () => {
+    const response = await fetch(
+      "https://api.github.com/users/brunocostaprado/repos"
+    );
+    const data = await response.json();
+    setRepositories(data);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ul>
+      {repositories.map((repo) => (
+        <li key={repo.id}>{repo.name}</li>
+      ))}
+    </ul>
   );
 }
-
-export default App;
